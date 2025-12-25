@@ -6,9 +6,13 @@ on:
     pull_request:
         branches: [main]
     workflow_dispatch:
-
+env:
+  PORT: 8000
 jobs:
   test:
+        env:
+          PORT: 7000
+          PASSWORD: 'taknavazan'
         runs-on: ubuntu-latest
         steps:
             - name: checkout repository
@@ -37,6 +41,10 @@ jobs:
               with:
                 name: artifact
                 path: artifact.txt
+            - name: printing envs
+              run: |
+                echo 'PORT: ${{env.PORT}}'
+                echo 'PASSWORD: ${{env.PASSWORD}}'
   
   build:
         needs: test
@@ -61,6 +69,10 @@ jobs:
             - name: building project
               run: |
                   echo "Building project"
+            - name: printing envs
+              run: |
+                echo 'PORT: ${{env.PORT}}'
+                echo 'PASSWORD: ${{env.PASSWORD}}'
     
   run:
         runs-on: ubuntu-latest
