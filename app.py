@@ -2,6 +2,12 @@ from fastapi import FastAPI,HTTPException
 
 app = FastAPI()
 
+code = 500
+
+if code != 200:
+    with open('artifact.txt','w') as f:
+        f.write(f'error code {code}')
+
 @app.get('/')
 def read_root():
     return {'hello' : 'world'}
